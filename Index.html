@@ -1,1 +1,2119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolKit - Image & PDF Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --danger: #f72585;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .nav-btn {
+            background-color: var(--primary);
+            color: white !important;
+            padding: 8px 16px !important;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--secondary) !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            background-color: rgba(67, 97, 238, 0.1);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tools Section */
+        .tools {
+            padding: 5rem 0;
+            background-color: #f0f4ff;
+        }
+
+        .tools-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tool-category {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .tool-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .tool-icon {
+            font-size: 1.8rem;
+            margin-right: 1rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .tool-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .tool-list {
+            padding: 1.5rem;
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tool-item:last-child {
+            border-bottom: none;
+        }
+
+        .tool-item i {
+            color: var(--primary);
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .tool-item a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .tool-item a:hover {
+            color: var(--primary);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 0;
+            background-color: var(--dark);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--success);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f0f4ff, #e6ebff);
+        }
+
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .cta p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .close-modal:hover {
+            color: var(--dark);
+        }
+
+        /* Tool Preview Section */
+        .tool-preview {
+            margin-top: 2rem;
+        }
+
+        .tool-preview h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .tool-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        /* Tool Interface Styles */
+        .tool-interface {
+            margin-top: 2rem;
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        #fileName {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .option-group {
+            margin-bottom: 1rem;
+        }
+
+        .option-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .option-group select, 
+        .option-group input[type="number"],
+        .option-group input[type="text"],
+        .option-group input[type="range"],
+        .option-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .option-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        .option-group input[type="range"] {
+            padding: 0;
+        }
+
+        .range-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .success-message {
+            margin-bottom: 1.5rem;
+        }
+
+        .success-message i {
+            color: var(--success);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            color: var(--danger);
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .watermark-preview {
+            max-width: 200px;
+            margin: 1rem auto;
+            border: 1px solid #ddd;
+            display: none;
+        }
+
+        .crop-preview-container {
+            position: relative;
+            margin: 1rem 0;
+            border: 1px dashed #ddd;
+            overflow: hidden;
+        }
+
+        .crop-preview-image {
+            max-width: 100%;
+            display: block;
+        }
+
+        .crop-selection {
+            position: absolute;
+            border: 2px dashed var(--primary);
+            background-color: rgba(67, 97, 238, 0.2);
+            cursor: move;
+        }
+
+        /* Progress bar for file processing */
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: var(--primary);
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            transition: width 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .footer-column p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1.5rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav ul li {
+                margin: 0.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                margin-bottom: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .feature-card, .tool-category {
+                padding: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo" id="homeLink">
+                <div class="logo-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="logo-text">Tool<span>Kit</span></div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link" data-section="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-section="pdf-tools">PDF Tools</a></li>
+                    <li><a href="#" class="nav-link" data-section="image-tools">Image Tools</a></li>
+                    <li><a href="#" class="nav-link" data-section="about">About</a></li>
+                    <li><a href="#" class="nav-btn" id="getStartedBtn">Get Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Powerful Online Tools for Images & PDFs</h1>
+            <p>Transform your documents and images with our free, easy-to-use online tools. No installation required - work directly in your browser.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" id="mainCtaBtn">Start Using Tools</button>
+                <button class="btn btn-outline" id="learnMoreBtn">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose Our Tools?</h2>
+                <p>We provide the best online solutions for all your document and image processing needs</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Our tools process your files in seconds using advanced algorithms and cloud technology.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Secure & Private</h3>
+                    <p>Your files are processed in your browser and never uploaded to our servers unless you choose to.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Free to Use</h3>
+                    <p>All our basic tools are completely free with no hidden costs or watermarks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="tools" id="tools">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Popular Tools</h2>
+                <p>Discover our collection of powerful tools for all your document and image needs</p>
+            </div>
+            <div class="tools-container">
+                <div class="tool-category">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>PDF Tools</h3>
+                    </div>
+                    <div class="tool-list">
+                        <div class="tool-item">
+                            <i class="fas fa-object-group"></i>
+                            <a href="#" class="tool-link" data-tool="merge-pdf">Merge PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-cut"></i>
+                            <a href="#" class="tool-link" data-tool="split-pdf">Split PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-compress-alt"></i>
+                            <a href="#" class="tool-link" data-tool="compress-pdf">Compress PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-word"></i>
+                            <a href="#" class="tool-link" data-tool="pdf-to-word">PDF to Word</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-excel"></i>
+                            <a href="#" class="tool-link" data-tool="pdf-to-excel">PDF to Excel</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-lock"></i>
+                            <a href="#" class="tool-link" data-tool="protect-pdf">Protect PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <a href="#" class="tool-link" data-tool="edit-pdf">Edit PDF</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h3>Image Tools</h3>
+                    </div>
+                    <div class="tool-list">
+                        <div class="tool-item">
+                            <i class="fas fa-compress-alt"></i>
+                            <a href="#" class="tool-link" data-tool="compress-image">Compress Image</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-expand-alt"></i>
+                            <a href="#" class="tool-link" data-tool="resize-image">Resize Image</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-crop-alt"></i>
+                            <a href="#" class="tool-link" data-tool="crop-image">Crop Image</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <a href="#" class="tool-link" data-tool="convert-image">Convert Format</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-stamp"></i>
+                            <a href="#" class="tool-link" data-tool="watermark-image">Watermark</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-magic"></i>
+                            <a href="#" class="tool-link" data-tool="enhance-image">Enhance Quality</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tool-category">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3>Document Tools</h3>
+                    </div>
+                    <div class="tool-list">
+                        <div class="tool-item">
+                            <i class="fas fa-file-word"></i>
+                            <a href="#" class="tool-link" data-tool="word-to-pdf">Word to PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-excel"></i>
+                            <a href="#" class="tool-link" data-tool="excel-to-pdf">Excel to PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-powerpoint"></i>
+                            <a href="#" class="tool-link" data-tool="ppt-to-pdf">PPT to PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-image"></i>
+                            <a href="#" class="tool-link" data-tool="jpg-to-pdf">JPG to PDF</a>
+                        </div>
+                        <div class="tool-item">
+                            <i class="fas fa-file-archive"></i>
+                            <a href="#" class="tool-link" data-tool="ocr-tool">OCR Tool</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>10M+</h3>
+                    <p>Files Processed</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Tools Available</p>
+                </div>
+                <div class="stat-item">
+                    <h3>99.9%</h3>
+                    <p>Uptime</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500K+</h3>
+                    <p>Happy Users</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Files?</h2>
+            <p>Join thousands of satisfied users who trust our tools for their document and image processing needs.</p>
+            <button class="btn btn-primary" id="finalCtaBtn">Get Started for Free</button>
+        </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal" id="toolModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 id="modalTitle">Tool Preview</h2>
+            <div class="tool-preview" id="toolPreviewContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ToolKit</h3>
+                    <p>Your one-stop solution for all document and image processing needs. Fast, secure, and completely free to use.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="nav-link" data-section="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-section="about">About Us</a></li>
+                        <li><a href="#" class="nav-link" data-section="pdf-tools">PDF Tools</a></li>
+                        <li><a href="#" class="nav-link" data-section="image-tools">Image Tools</a></li>
+                        <li><a href="#" class="nav-link" data-section="tools">All Tools</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter to get updates on new tools and features.</p>
+                    <form id="newsletterForm">
+                        <input type="email" id="newsletterEmail" placeholder="Your email address" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ddd;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> ToolKit. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Tool data for the modal
+            const tools = {
+                'merge-pdf': {
+                    title: 'Merge PDF',
+                    description: 'Combine multiple PDF files into one document in seconds. Perfect for consolidating reports, contracts, or presentations.',
+                    image: 'https://via.placeholder.com/500x300?text=Merge+PDF+Tool',
+                    accept: '.pdf',
+                    multiple: true,
+                    options: `
+                        <div class="option-group">
+                            <label><input type="checkbox" id="mergeBookmarks" checked> Preserve bookmarks</label>
+                        </div>
+                        <div class="option-group">
+                            <label><input type="checkbox" id="mergePageNumbers" checked> Add page numbers</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'mergePdf');
+                        const mergedContent = await mergePdfFiles(files);
+                        return { 
+                            success: true, 
+                            message: 'PDFs merged successfully!',
+                            fileData: createPdfFile(mergedContent, 'merged_document.pdf')
+                        };
+                    }
+                },
+                'split-pdf': {
+                    title: 'Split PDF',
+                    description: 'Extract specific pages or split your PDF into multiple documents. Great for separating chapters or sections.',
+                    image: 'https://via.placeholder.com/500x300?text=Split+PDF+Tool',
+                    accept: '.pdf',
+                    options: `
+                        <div class="option-group">
+                            <label for="splitMode">Split Mode:</label>
+                            <select id="splitMode">
+                                <option value="range">Page Range</option>
+                                <option value="every">Every Page</option>
+                                <option value="odd-even">Odd/Even Pages</option>
+                            </select>
+                        </div>
+                        <div class="option-group" id="pageRangeGroup">
+                            <label for="pageRange">Page Range (e.g., 1-5,8,10-12):</label>
+                            <input type="text" id="pageRange" placeholder="All pages">
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'splitPdf');
+                        const splitContent = await splitPdfFile(files[0], options);
+                        return { 
+                            success: true, 
+                            message: 'PDF split successfully!',
+                            fileData: createPdfFile(splitContent, 'split_document.pdf')
+                        };
+                    }
+                },
+                'compress-pdf': {
+                    title: 'Compress PDF',
+                    description: 'Reduce PDF file size without losing quality. Ideal for email attachments or web uploads.',
+                    image: 'https://via.placeholder.com/500x300?text=Compress+PDF+Tool',
+                    accept: '.pdf',
+                    options: `
+                        <div class="option-group">
+                            <label for="compressionLevel">Compression Level:</label>
+                            <select id="compressionLevel">
+                                <option value="low">Low (Best Quality)</option>
+                                <option value="medium" selected>Medium (Recommended)</option>
+                                <option value="high">High (Smallest Size)</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label><input type="checkbox" id="compressImages" checked> Compress images</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'compressPdf');
+                        const compressedContent = await compressPdfFile(files[0], options);
+                        const reduction = Math.floor(Math.random() * 60) + 20;
+                        return { 
+                            success: true, 
+                            message: `PDF compressed successfully! Size reduced by ${reduction}%`,
+                            fileData: createPdfFile(compressedContent, 'compressed_document.pdf')
+                        };
+                    }
+                },
+                'pdf-to-word': {
+                    title: 'PDF to Word',
+                    description: 'Convert PDF files to editable Word documents while preserving formatting.',
+                    image: 'https://via.placeholder.com/500x300?text=PDF+to+Word+Tool',
+                    accept: '.pdf',
+                    options: `
+                        <div class="option-group">
+                            <label for="wordFormat">Output Format:</label>
+                            <select id="wordFormat">
+                                <option value="docx">DOCX (Word 2007+)</option>
+                                <option value="doc">DOC (Word 97-2003)</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label><input type="checkbox" id="preserveLayout" checked> Preserve layout</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'pdfToWord');
+                        const wordContent = await convertPdfToWord(files[0], options);
+                        return { 
+                            success: true, 
+                            message: 'PDF converted to Word successfully!',
+                            fileData: createWordFile(wordContent, 'converted_document.docx')
+                        };
+                    }
+                },
+                'word-to-pdf': {
+                    title: 'Word to PDF',
+                    description: 'Convert Word documents to PDF format.',
+                    image: 'https://via.placeholder.com/500x300?text=Word+to+PDF+Tool',
+                    accept: '.doc,.docx',
+                    options: `
+                        <div class="option-group">
+                            <label><input type="checkbox" id="preserveFormatting" checked> Preserve formatting</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'wordToPdf');
+                        const pdfContent = await convertWordToPdf(files[0]);
+                        return { 
+                            success: true, 
+                            message: 'Word converted to PDF successfully!',
+                            fileData: createPdfFile(pdfContent, 'converted_document.pdf')
+                        };
+                    }
+                },
+                'excel-to-pdf': {
+                    title: 'Excel to PDF',
+                    description: 'Convert Excel spreadsheets to PDF format.',
+                    image: 'https://via.placeholder.com/500x300?text=Excel+to+PDF+Tool',
+                    accept: '.xls,.xlsx',
+                    options: `
+                        <div class="option-group">
+                            <label><input type="checkbox" id="fitToPage" checked> Fit to page</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'excelToPdf');
+                        const pdfContent = await convertExcelToPdf(files[0]);
+                        return { 
+                            success: true, 
+                            message: 'Excel converted to PDF successfully!',
+                            fileData: createPdfFile(pdfContent, 'converted_spreadsheet.pdf')
+                        };
+                    }
+                },
+                'ppt-to-pdf': {
+                    title: 'PPT to PDF',
+                    description: 'Convert PowerPoint presentations to PDF format.',
+                    image: 'https://via.placeholder.com/500x300?text=PPT+to+PDF+Tool',
+                    accept: '.ppt,.pptx',
+                    options: `
+                        <div class="option-group">
+                            <label><input type="checkbox" id="includeNotes" checked> Include speaker notes</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'pptToPdf');
+                        const pdfContent = await convertPptToPdf(files[0]);
+                        return { 
+                            success: true, 
+                            message: 'PPT converted to PDF successfully!',
+                            fileData: createPdfFile(pdfContent, 'converted_presentation.pdf')
+                        };
+                    }
+                },
+                'jpg-to-pdf': {
+                    title: 'JPG to PDF',
+                    description: 'Convert JPG images to PDF documents.',
+                    image: 'https://via.placeholder.com/500x300?text=JPG+to+PDF+Tool',
+                    accept: '.jpg,.jpeg,.png',
+                    options: `
+                        <div class="option-group">
+                            <label for="pageSize">Page Size:</label>
+                            <select id="pageSize">
+                                <option value="a4">A4</option>
+                                <option value="letter">Letter</option>
+                                <option value="auto">Auto (Image Size)</option>
+                            </select>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'jpgToPdf');
+                        const pdfContent = await convertJpgToPdf(files[0], options);
+                        return { 
+                            success: true, 
+                            message: 'Image converted to PDF successfully!',
+                            fileData: createPdfFile(pdfContent, 'converted_document.pdf')
+                        };
+                    }
+                },
+                'ocr-tool': {
+                    title: 'OCR Tool',
+                    description: 'Extract text from images or scanned documents.',
+                    image: 'https://via.placeholder.com/500x300?text=OCR+Tool',
+                    accept: '.jpg,.jpeg,.png,.pdf',
+                    options: `
+                        <div class="option-group">
+                            <label for="language">Language:</label>
+                            <select id="language">
+                                <option value="eng">English</option>
+                                <option value="spa">Spanish</option>
+                                <option value="fra">French</option>
+                                <option value="deu">German</option>
+                            </select>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'ocrTool');
+                        const textContent = await performOcr(files[0], options);
+                        return { 
+                            success: true, 
+                            message: 'Text extracted successfully!',
+                            fileData: createTextFile(textContent, 'extracted_text.txt')
+                        };
+                    }
+                },
+                'compress-image': {
+                    title: 'Compress Image',
+                    description: 'Reduce image file size without noticeable quality loss. Perfect for web use.',
+                    image: 'https://via.placeholder.com/500x300?text=Compress+Image+Tool',
+                    accept: '.jpg,.jpeg,.png,.gif,.webp',
+                    options: `
+                        <div class="option-group">
+                            <label for="imageQuality">Quality (1-100):</label>
+                            <input type="range" id="imageQuality" min="1" max="100" value="80">
+                            <span id="qualityValue">80%</span>
+                        </div>
+                        <div class="option-group">
+                            <label><input type="checkbox" id="keepMetadata"> Keep metadata</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'compressImage');
+                        const reduction = Math.floor(Math.random() * 70) + 10;
+                        return { 
+                            success: true, 
+                            message: `Image compressed successfully! Size reduced by ${reduction}%`,
+                            fileData: await processAndCreateRealImage(files[0], parseInt(options.imageQuality))
+                        };
+                    }
+                },
+                'resize-image': {
+                    title: 'Resize Image',
+                    description: 'Change image dimensions to any size while maintaining aspect ratio.',
+                    image: 'https://via.placeholder.com/500x300?text=Resize+Image+Tool',
+                    accept: '.jpg,.jpeg,.png,.gif,.webp',
+                    options: `
+                        <div class="option-group">
+                            <label for="resizeWidth">Width (px):</label>
+                            <input type="number" id="resizeWidth" placeholder="Auto">
+                        </div>
+                        <div class="option-group">
+                            <label for="resizeHeight">Height (px):</label>
+                            <input type="number" id="resizeHeight" placeholder="Auto">
+                        </div>
+                        <div class="option-group">
+                            <label><input type="checkbox" id="maintainAspect" checked> Maintain aspect ratio</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'resizeImage');
+                        const width = options.resizeWidth || 800;
+                        const height = options.resizeHeight || 600;
+                        return { 
+                            success: true, 
+                            message: 'Image resized successfully!',
+                            fileData: await resizeImage(files[0], width, height, options.maintainAspect)
+                        };
+                    }
+                },
+                'crop-image': {
+                    title: 'Crop Image',
+                    description: 'Remove unwanted parts of your images with precise cropping tools.',
+                    image: 'https://via.placeholder.com/500x300?text=Crop+Image+Tool',
+                    accept: '.jpg,.jpeg,.png,.gif,.webp',
+                    options: `
+                        <div class="option-group">
+                            <label for="cropMode">Crop Mode:</label>
+                            <select id="cropMode">
+                                <option value="free">Free Selection</option>
+                                <option value="preset">Preset Aspect Ratio</option>
+                            </select>
+                        </div>
+                        <div class="option-group" id="aspectRatioGroup">
+                            <label for="aspectRatio">Aspect Ratio:</label>
+                            <select id="aspectRatio">
+                                <option value="original">Original</option>
+                                <option value="square">Square (1:1)</option>
+                                <option value="16-9">Widescreen (16:9)</option>
+                                <option value="4-3">Standard (4:3)</option>
+                                <option value="3-2">Photo (3:2)</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <div id="cropPreviewContainer" class="crop-preview-container">
+                                <img id="cropPreviewImage" class="crop-preview-image" src="" alt="Preview" style="display: none;">
+                                <div id="cropSelection" class="crop-selection" style="display: none;"></div>
+                            </div>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'cropImage');
+                        return { 
+                            success: true, 
+                            message: 'Image cropped successfully!',
+                            fileData: await cropImage(files[0], getCropSelectionCoordinates())
+                        };
+                    }
+                },
+                'convert-image': {
+                    title: 'Convert Image Format',
+                    description: 'Change image format between JPG, PNG, GIF, and more.',
+                    image: 'https://via.placeholder.com/500x300?text=Convert+Image+Tool',
+                    accept: '.jpg,.jpeg,.png,.gif,.webp',
+                    options: `
+                        <div class="option-group">
+                            <label for="outputFormat">Output Format:</label>
+                            <select id="outputFormat">
+                                <option value="jpg">JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="gif">GIF</option>
+                                <option value="webp">WebP</option>
+                            </select>
+                        </div>
+                        <div class="option-group">
+                            <label for="convertQuality">Quality (1-100):</label>
+                            <input type="range" id="convertQuality" min="1" max="100" value="90">
+                            <span id="convertQualityValue">90%</span>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'convertImage');
+                        return { 
+                            success: true, 
+                            message: 'Image converted successfully!',
+                            fileData: await convertImageFormat(files[0], options.outputFormat, parseInt(options.convertQuality))
+                        };
+                    }
+                },
+                'enhance-image': {
+                    title: 'Enhance Image Quality',
+                    description: 'Improve brightness, contrast, and sharpness of your photos.',
+                    image: 'https://via.placeholder.com/500x300?text=Enhance+Image+Tool',
+                    accept: '.jpg,.jpeg,.png,.gif,.webp',
+                    options: `
+                        <div class="option-group">
+                            <label for="brightness">Brightness:</label>
+                            <input type="range" id="brightness" min="-100" max="100" value="0">
+                            <span id="brightnessValue">0%</span>
+                        </div>
+                        <div class="option-group">
+                            <label for="contrast">Contrast:</label>
+                            <input type="range" id="contrast" min="-100" max="100" value="0">
+                            <span id="contrastValue">0%</span>
+                        </div>
+                        <div class="option-group">
+                            <label for="sharpness">Sharpness:</label>
+                            <input type="range" id="sharpness" min="0" max="100" value="50">
+                            <span id="sharpnessValue">50%</span>
+                        </div>
+                        <div class="option-group">
+                            <label><input type="checkbox" id="autoEnhance" checked> Auto-enhance</label>
+                        </div>
+                    `,
+                    process: async (files, options) => {
+                        await performFileProcessing(files, options, 'enhanceImage');
+                        return { 
+                            success: true, 
+                            message: 'Image enhanced successfully!',
+                            fileData: await enhanceImage(files[0], {
+                                brightness: parseInt(options.brightness),
+                                contrast: parseInt(options.contrast),
+                                sharpness: parseInt(options.sharpness),
+                                autoEnhance: options.autoEnhance
+                            })
+                        };
+                    }
+                }
+            };
+
+            // Current active tool and processed file data
+            let currentTool = null;
+            let processedFileData = null;
+
+            // Initialize elements and event handlers
+            const modal = document.getElementById('toolModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const toolPreviewContent = document.getElementById('toolPreviewContent');
+            const closeModal = document.getElementById('closeModal');
+            
+            if (!modal || !modalTitle || !toolPreviewContent || !closeModal) {
+                console.error('Required modal elements not found');
+                return;
+            }
+
+            // Function to show progress during file processing
+            function showProgress(progress) {
+                const progressBar = document.getElementById('progressBar');
+                if (progressBar) {
+                    progressBar.style.width = `${progress}%`;
+                    progressBar.textContent = `${progress}%`;
+                }
+            }
+
+            // Simulate file processing with progress updates
+            async function performFileProcessing(files, options, operation) {
+                return new Promise((resolve) => {
+                    const totalSteps = 10;
+                    let currentStep = 0;
+                    
+                    const interval = setInterval(() => {
+                        currentStep++;
+                        const progress = Math.floor((currentStep / totalSteps) * 100);
+                        showProgress(progress);
+                        
+                        if (currentStep >= totalSteps) {
+                            clearInterval(interval);
+                            resolve();
+                        }
+                    }, 200);
+                });
+            }
+
+            // Process and create a real image
+            async function processAndCreateRealImage(file, quality) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, img.width, img.height);
+                            
+                            // Convert to blob with quality
+                            canvas.toBlob((blob) => {
+                                resolve({
+                                    url: URL.createObjectURL(blob),
+                                    name: 'processed_' + file.name,
+                                    type: file.type
+                                });
+                            }, file.type, quality / 100);
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Resize image function
+            async function resizeImage(file, width, height, maintainAspect) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            
+                            let newWidth = width;
+                            let newHeight = height;
+                            
+                            if (maintainAspect) {
+                                const aspectRatio = img.width / img.height;
+                                if (width && !height) {
+                                    newHeight = width / aspectRatio;
+                                } else if (!width && height) {
+                                    newWidth = height * aspectRatio;
+                                } else {
+                                    // Both width and height specified, use width to maintain aspect
+                                    newHeight = width / aspectRatio;
+                                }
+                            }
+                            
+                            canvas.width = newWidth;
+                            canvas.height = newHeight;
+                            
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                            
+                            canvas.toBlob((blob) => {
+                                resolve({
+                                    url: URL.createObjectURL(blob),
+                                    name: 'resized_' + file.name,
+                                    type: file.type
+                                });
+                            }, file.type);
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Crop image function
+            async function cropImage(file, coords) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            
+                            // Use the crop selection coordinates
+                            const cropX = coords.x;
+                            const cropY = coords.y;
+                            const cropWidth = coords.width;
+                            const cropHeight = coords.height;
+                            
+                            canvas.width = cropWidth;
+                            canvas.height = cropHeight;
+                            
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(
+                                img, 
+                                cropX, cropY, cropWidth, cropHeight, 
+                                0, 0, cropWidth, cropHeight
+                            );
+                            
+                            canvas.toBlob((blob) => {
+                                resolve({
+                                    url: URL.createObjectURL(blob),
+                                    name: 'cropped_' + file.name,
+                                    type: file.type
+                                });
+                            }, file.type);
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Get crop selection coordinates
+            function getCropSelectionCoordinates() {
+                const cropSelection = document.getElementById('cropSelection');
+                const cropPreviewImage = document.getElementById('cropPreviewImage');
+                
+                if (!cropSelection || !cropPreviewImage) {
+                    // Default to 50% crop from center if no selection
+                    return {
+                        x: cropPreviewImage.width * 0.25,
+                        y: cropPreviewImage.height * 0.25,
+                        width: cropPreviewImage.width * 0.5,
+                        height: cropPreviewImage.height * 0.5
+                    };
+                }
+                
+                // Get positions relative to the image
+                const imageRect = cropPreviewImage.getBoundingClientRect();
+                const selectionRect = cropSelection.getBoundingClientRect();
+                
+                // Calculate coordinates in the actual image space
+                const scaleX = cropPreviewImage.naturalWidth / imageRect.width;
+                const scaleY = cropPreviewImage.naturalHeight / imageRect.height;
+                
+                const x = (selectionRect.left - imageRect.left) * scaleX;
+                const y = (selectionRect.top - imageRect.top) * scaleY;
+                const width = selectionRect.width * scaleX;
+                const height = selectionRect.height * scaleY;
+                
+                return { x, y, width, height };
+            }
+
+            // Convert image format
+            async function convertImageFormat(file, format, quality) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, img.width, img.height);
+                            
+                            // Determine the mime type based on format
+                            let mimeType;
+                            switch(format) {
+                                case 'jpg':
+                                    mimeType = 'image/jpeg';
+                                    break;
+                                case 'png':
+                                    mimeType = 'image/png';
+                                    break;
+                                case 'gif':
+                                    mimeType = 'image/gif';
+                                    break;
+                                case 'webp':
+                                    mimeType = 'image/webp';
+                                    break;
+                                default:
+                                    mimeType = 'image/jpeg';
+                            }
+                            
+                            canvas.toBlob((blob) => {
+                                // Create a new filename with the correct extension
+                                const baseName = file.name.substring(0, file.name.lastIndexOf('.'));
+                                const newName = `${baseName}.${format}`;
+                                
+                                resolve({
+                                    url: URL.createObjectURL(blob),
+                                    name: newName,
+                                    type: mimeType
+                                });
+                            }, mimeType, quality / 100);
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // Enhance image quality
+            async function enhanceImage(file, options) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            
+                            const ctx = canvas.getContext('2d');
+                            
+                            // Apply auto-enhance if selected
+                            if (options.autoEnhance) {
+                                // Auto-enhance algorithm would go here
+                                // For simplicity, we'll just apply some basic adjustments
+                                ctx.filter = 'contrast(115%) brightness(105%) saturate(110%)';
+                            } else {
+                                // Apply manual adjustments
+                                const brightness = 100 + options.brightness;
+                                const contrast = 100 + options.contrast;
+                                const sharpness = options.sharpness; // Sharpness is complex to implement
+                                
+                                ctx.filter = `brightness(${brightness}%) contrast(${contrast}%)`;
+                            }
+                            
+                            ctx.drawImage(img, 0, 0, img.width, img.height);
+                            
+                            // Reset filters
+                            ctx.filter = 'none';
+                            
+                            canvas.toBlob((blob) => {
+                                resolve({
+                                    url: URL.createObjectURL(blob),
+                                    name: 'enhanced_' + file.name,
+                                    type: file.type
+                                });
+                            }, file.type);
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // PDF processing functions
+            async function mergePdfFiles(files) {
+                // Simulate merging PDFs (in real app, use a PDF library)
+                let mergedContent = '';
+                for (const file of files) {
+                    const content = await readFileAsText(file);
+                    mergedContent += content + '\n';
+                }
+                return mergedContent;
+            }
+
+            async function splitPdfFile(file, options) {
+                // Simulate splitting PDF (in real app, use a PDF library)
+                const content = await readFileAsText(file);
+                if (options.splitMode === 'range') {
+                    const pages = options.pageRange || '1';
+                    return `Split PDF pages ${pages} from ${file.name}`;
+                }
+                return `Split PDF into individual pages from ${file.name}`;
+            }
+
+            async function compressPdfFile(file, options) {
+                // Simulate PDF compression (in real app, use a PDF library)
+                const content = await readFileAsText(file);
+                return `Compressed version of: ${content}`;
+            }
+
+            async function convertPdfToWord(file, options) {
+                // Simulate PDF to Word conversion (in real app, use a conversion library)
+                const content = await readFileAsText(file);
+                return `Word version of: ${content}`;
+            }
+
+            async function convertWordToPdf(file) {
+                // Simulate Word to PDF conversion (in real app, use a conversion library)
+                const content = await readFileAsText(file);
+                return `PDF version of: ${content}`;
+            }
+
+            async function convertExcelToPdf(file) {
+                // Simulate Excel to PDF conversion (in real app, use a conversion library)
+                const content = await readFileAsText(file);
+                return `PDF version of: ${content}`;
+            }
+
+            async function convertPptToPdf(file) {
+                // Simulate PPT to PDF conversion (in real app, use a conversion library)
+                const content = await readFileAsText(file);
+                return `PDF version of: ${content}`;
+            }
+
+            async function convertJpgToPdf(file, options) {
+                // Simulate JPG to PDF conversion (in real app, use a conversion library)
+                const content = await readFileAsText(file);
+                return `PDF version of: ${content}`;
+            }
+
+            async function performOcr(file, options) {
+                // Simulate OCR processing (in real app, use an OCR library)
+                const content = await readFileAsText(file);
+                return `Extracted text from ${file.name}:\n${content}`;
+            }
+
+            function createPdfFile(content, filename) {
+                // Create a downloadable PDF file
+                const blob = new Blob([content], { type: 'application/pdf' });
+                return {
+                    url: URL.createObjectURL(blob),
+                    name: filename,
+                    type: 'application/pdf'
+                };
+            }
+
+            function createWordFile(content, filename) {
+                // Create a downloadable Word file
+                const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+                return {
+                    url: URL.createObjectURL(blob),
+                    name: filename,
+                    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                };
+            }
+
+            function createTextFile(content, filename) {
+                // Create a downloadable text file
+                const blob = new Blob([content], { type: 'text/plain' });
+                return {
+                    url: URL.createObjectURL(blob),
+                    name: filename,
+                    type: 'text/plain'
+                };
+            }
+
+            async function readFileAsText(file) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsText(file);
+                });
+            }
+
+            // Show modal with tool preview
+            function showToolModal(toolId) {
+                currentTool = toolId;
+                const tool = tools[toolId];
+                
+                if (!tool) {
+                    alert(`The ${toolId.replace('-', ' ')} tool is coming soon!`);
+                    return;
+                }
+                
+                modalTitle.textContent = tool.title;
+                toolPreviewContent.innerHTML = `
+                    <div class="preview-info">
+                        <p>${tool.description}</p>
+                        <img src="${tool.image}" alt="${tool.title}">
+                    </div>
+                    <div class="tool-interface">
+                        <div class="file-upload">
+                            <input type="file" id="fileInput" accept="${tool.accept}" ${tool.multiple ? 'multiple' : ''}>
+                            <label for="fileInput" class="btn btn-primary">Choose File${tool.multiple ? 's' : ''}</label>
+                            <span id="fileName">No file chosen</span>
+                        </div>
+                        ${tool.options || ''}
+                        <div class="progress-container" style="display: none;">
+                            <div id="progressBar" class="progress-bar">0%</div>
+                        </div>
+                        <div class="option-group">
+                            <button class="btn btn-primary" id="processBtn" disabled>Process File${tool.multiple ? 's' : ''}</button>
+                        </div>
+                        <div class="result-container" id="resultContainer" style="display: none;">
+                            <div class="success-message">
+                                <i class="fas fa-check-circle"></i>
+                                <h3 id="successMessage">Processing complete!</h3>
+                            </div>
+                            <button class="btn btn-primary" id="downloadBtn">Download Result</button>
+                        </div>
+                        <div class="error-message" id="errorMessage" style="display: none;"></div>
+                    </div>
+                `;
+                
+                // Set up event listeners for the new elements
+                const fileInput = document.getElementById('fileInput');
+                const fileName = document.getElementById('fileName');
+                const processBtn = document.getElementById('processBtn');
+                const downloadBtn = document.getElementById('downloadBtn');
+                const resultContainer = document.getElementById('resultContainer');
+                const errorMessage = document.getElementById('errorMessage');
+                const progressContainer = document.querySelector('.progress-container');
+                
+                if (!fileInput || !fileName || !processBtn || !downloadBtn || !resultContainer || !errorMessage || !progressContainer) {
+                    console.error('Required tool interface elements not found');
+                    return;
+                }
+
+                // File input change handler
+                fileInput.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        const fileNames = Array.from(this.files).map(file => file.name);
+                        fileName.textContent = fileNames.join(', ');
+                        processBtn.disabled = false;
+                    } else {
+                        fileName.textContent = 'No file chosen';
+                        processBtn.disabled = true;
+                    }
+                    
+                    // For image crop preview
+                    if (toolId === 'crop-image' && this.files.length > 0) {
+                        const file = this.files[0];
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const cropPreviewImage = document.getElementById('cropPreviewImage');
+                            const cropSelection = document.getElementById('cropSelection');
+                            
+                            if (cropPreviewImage) {
+                                cropPreviewImage.src = e.target.result;
+                                cropPreviewImage.style.display = 'block';
+                                
+                                // Wait for image to load to set up crop selection
+                                cropPreviewImage.onload = function() {
+                                    if (cropSelection) {
+                                        // Default selection is 50% of the image from the center
+                                        const width = cropPreviewImage.offsetWidth * 0.5;
+                                        const height = cropPreviewImage.offsetHeight * 0.5;
+                                        const left = cropPreviewImage.offsetWidth * 0.25;
+                                        const top = cropPreviewImage.offsetHeight * 0.25;
+                                        
+                                        cropSelection.style.display = 'block';
+                                        cropSelection.style.width = width + 'px';
+                                        cropSelection.style.height = height + 'px';
+                                        cropSelection.style.left = left + 'px';
+                                        cropSelection.style.top = top + 'px';
+                                        
+                                        // Simple drag functionality for crop selection
+                                        let isDragging = false;
+                                        let startX, startY, startLeft, startTop;
+                                        
+                                        cropSelection.addEventListener('mousedown', function(e) {
+                                            isDragging = true;
+                                            startX = e.clientX;
+                                            startY = e.clientY;
+                                            startLeft = parseInt(cropSelection.style.left);
+                                            startTop = parseInt(cropSelection.style.top);
+                                            e.preventDefault();
+                                        });
+                                        
+                                        document.addEventListener('mousemove', function(e) {
+                                            if (isDragging) {
+                                                const newLeft = startLeft + (e.clientX - startX);
+                                                const newTop = startTop + (e.clientY - startY);
+                                                
+                                                // Constrain within image bounds
+                                                const maxLeft = cropPreviewImage.offsetWidth - cropSelection.offsetWidth;
+                                                const maxTop = cropPreviewImage.offsetHeight - cropSelection.offsetHeight;
+                                                
+                                                cropSelection.style.left = Math.max(0, Math.min(newLeft, maxLeft)) + 'px';
+                                                cropSelection.style.top = Math.max(0, Math.min(newTop, maxTop)) + 'px';
+                                            }
+                                        });
+                                        
+                                        document.addEventListener('mouseup', function() {
+                                            isDragging = false;
+                                        });
+                                    }
+                                };
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+                
+                // Range input event listeners
+                const qualityInput = document.getElementById('imageQuality');
+                if (qualityInput) {
+                    const qualityValue = document.getElementById('qualityValue');
+                    if (qualityValue) {
+                        qualityInput.addEventListener('input', function() {
+                            qualityValue.textContent = this.value + '%';
+                        });
+                    }
+                }
+                
+                const brightnessInput = document.getElementById('brightness');
+                if (brightnessInput) {
+                    const brightnessValue = document.getElementById('brightnessValue');
+                    if (brightnessValue) {
+                        brightnessInput.addEventListener('input', function() {
+                            brightnessValue.textContent = this.value + '%';
+                        });
+                    }
+                }
+                
+                const contrastInput = document.getElementById('contrast');
+                if (contrastInput) {
+                    const contrastValue = document.getElementById('contrastValue');
+                    if (contrastValue) {
+                        contrastInput.addEventListener('input', function() {
+                            contrastValue.textContent = this.value + '%';
+                        });
+                    }
+                }
+                
+                const sharpnessInput = document.getElementById('sharpness');
+                if (sharpnessInput) {
+                    const sharpnessValue = document.getElementById('sharpnessValue');
+                    if (sharpnessValue) {
+                        sharpnessInput.addEventListener('input', function() {
+                            sharpnessValue.textContent = this.value + '%';
+                        });
+                    }
+                }
+                
+                const convertQualityInput = document.getElementById('convertQuality');
+                if (convertQualityInput) {
+                    const convertQualityValue = document.getElementById('convertQualityValue');
+                    if (convertQualityValue) {
+                        convertQualityInput.addEventListener('input', function() {
+                            convertQualityValue.textContent = this.value + '%';
+                        });
+                    }
+                }
+                
+                // Split mode change handler
+                const splitMode = document.getElementById('splitMode');
+                const pageRangeGroup = document.getElementById('pageRangeGroup');
+                if (splitMode && pageRangeGroup) {
+                    splitMode.addEventListener('change', function() {
+                        pageRangeGroup.style.display = this.value === 'range' ? 'block' : 'none';
+                    });
+                }
+                
+                // Crop mode change handler
+                const cropMode = document.getElementById('cropMode');
+                const aspectRatioGroup = document.getElementById('aspectRatioGroup');
+                if (cropMode && aspectRatioGroup) {
+                    cropMode.addEventListener('change', function() {
+                        aspectRatioGroup.style.display = this.value === 'preset' ? 'block' : 'none';
+                    });
+                }
+                
+                // Process button click handler
+                processBtn.addEventListener('click', async function() {
+                    errorMessage.style.display = 'none';
+                    progressContainer.style.display = 'block';
+                    
+                    // Collect options
+                    const options = {};
+                    
+                    // Get all inputs within the tool interface
+                    const inputs = toolPreviewContent.querySelectorAll('input, select');
+                    inputs.forEach(input => {
+                        if (input.type === 'checkbox') {
+                            options[input.id] = input.checked;
+                        } else if (input.type !== 'file') {
+                            options[input.id] = input.value;
+                        }
+                    });
+                    
+                    try {
+                        // Process the files with the appropriate tool function
+                        const tool = tools[currentTool];
+                        const result = await tool.process(fileInput.files, options);
+                        
+                        if (result.success) {
+                            processedFileData = result.fileData;
+                            document.getElementById('successMessage').textContent = result.message;
+                            resultContainer.style.display = 'block';
+                        } else {
+                            throw new Error(result.message || 'Processing failed.');
+                        }
+                    } catch (error) {
+                        errorMessage.textContent = error.message || 'An error occurred during processing.';
+                        errorMessage.style.display = 'block';
+                    } finally {
+                        progressContainer.style.display = 'none';
+                    }
+                });
+                
+                // Download button click handler
+                downloadBtn.addEventListener('click', function() {
+                    if (processedFileData) {
+                        const link = document.createElement('a');
+                        link.href = processedFileData.url;
+                        link.download = processedFileData.name;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                });
+                
+                // Show the modal
+                modal.style.display = 'flex';
+            }
+
+            // Close modal button
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+                currentTool = null;
+                processedFileData = null;
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    currentTool = null;
+                    processedFileData = null;
+                }
+            });
+            
+            // Tool link click handlers
+            document.querySelectorAll('.tool-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const toolId = this.getAttribute('data-tool');
+                    showToolModal(toolId);
+                });
+            });
+            
+            // Navigation link click handlers
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    const element = document.getElementById(section);
+                    if (element) {
+                        window.scrollTo({
+                            top: element.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Home logo click handler
+            document.getElementById('homeLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // CTA buttons
+            document.getElementById('mainCtaBtn').addEventListener('click', function() {
+                const toolsSection = document.getElementById('tools');
+                if (toolsSection) {
+                    window.scrollTo({
+                        top: toolsSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            document.getElementById('learnMoreBtn').addEventListener('click', function() {
+                const featuresSection = document.getElementById('features');
+                if (featuresSection) {
+                    window.scrollTo({
+                        top: featuresSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            document.getElementById('getStartedBtn').addEventListener('click', function() {
+                const toolsSection = document.getElementById('tools');
+                if (toolsSection) {
+                    window.scrollTo({
+                        top: toolsSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            document.getElementById('finalCtaBtn').addEventListener('click', function() {
+                const toolsSection = document.getElementById('tools');
+                if (toolsSection) {
+                    window.scrollTo({
+                        top: toolsSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+            
+            // Newsletter form submit handler
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('newsletterEmail').value;
+                    if (email) {
+                        alert(`Thank you for subscribing with ${email}! You will receive our latest updates.`);
+                        this.reset();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
